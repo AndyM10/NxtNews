@@ -16,7 +16,7 @@ function PostItem({ post }: PostItemProps) {
   const minutesToRead = (post.word_count / 100 + 1).toFixed(0)
   
   return(
-    <Box display='flex' p='2'>
+    <Box display='flex' p='2' position='relative'>
       <LinkBox as='article' borderWidth='1px' rounded='md' p='3'>
         <Heading size='md' my='2'>
           <LinkOverlay href={post.web_url} isExternal>
