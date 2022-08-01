@@ -1,7 +1,9 @@
 import type { NextPage } from 'next'
 import { GetServerSideProps } from 'next'
 
+import Sidebar from '../components/Sidebar'
 import PostFeed from '../components/PostFeed'
+import { Flex } from '@chakra-ui/react'
 
 export const getServerSideProps: GetServerSideProps = async () => {
   const key = process.env.API_KEY
@@ -13,9 +15,12 @@ export const getServerSideProps: GetServerSideProps = async () => {
   }
 }
 
-const Home: NextPage = (props) => {
+const Home: NextPage = (props:any) => {
   return (
-    <PostFeed posts={props.responseData.response.docs} />
+   <Flex w='100%'>
+    <Sidebar posts={props.responseData.response.docs}/>
+    <PostFeed posts={props.responseData.response.docs}/>
+   </Flex>
   )
 }
 

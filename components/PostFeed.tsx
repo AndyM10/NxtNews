@@ -1,4 +1,4 @@
-import { Box, LinkBox, Heading, LinkOverlay, Text } from '@chakra-ui/react';
+import { Box, LinkBox, Heading, LinkOverlay, Text, Flex } from '@chakra-ui/react';
 
 interface PostFeedProps {
   posts: any
@@ -9,14 +9,18 @@ interface PostItemProps {
 }
 
 export default function PostFeed({ posts }: PostFeedProps) {
-  return posts ? posts.map((post: any) => <PostItem post={post}/>): null
+  return (
+    <Flex flexDir='column'>
+      {posts ? posts.map((post: any) => <PostItem post={post}/>): null}
+    </Flex>
+  )
 }
 
 function PostItem({ post }: PostItemProps) {
   const minutesToRead = (post.word_count / 100 + 1).toFixed(0)
   
   return(
-    <Box display='flex' p='2' position='relative'>
+    <Box p='2'>
       <LinkBox as='article' borderWidth='1px' rounded='md' p='3'>
         <Heading size='md' my='2'>
           <LinkOverlay href={post.web_url} isExternal>
