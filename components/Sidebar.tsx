@@ -1,8 +1,9 @@
 import { Box, Heading, ListItem, UnorderedList } from "@chakra-ui/react"
 import { useEffect, useState } from "react"
+import { NewsDataResult } from "../types/types"
 
 interface SidebarProps {
-  posts: any
+  posts: NewsDataResult[]
 }
 
 export default function Sidebar({ posts }: SidebarProps) {
@@ -15,7 +16,7 @@ export default function Sidebar({ posts }: SidebarProps) {
 
   return(
     <Box
-      maxW='20%'
+      w='20%'
       minH='full'
       p='5px'
     >
@@ -33,8 +34,9 @@ function getThemes(posts: any): [] {
 
   const themes = posts ? posts.map((post: any) => {
     let arr =[]
-    const i = Math.floor(Math.random() * post.keywords.length)
-    arr.push(post.keywords[i]['value'])
+    post.keywords ? 
+      arr.push(post.keywords[Math.floor(Math.random() * post.keywords.length)]) :
+      null
     return arr
   }): null
 
@@ -42,3 +44,4 @@ function getThemes(posts: any): [] {
   return themes
 
 }
+

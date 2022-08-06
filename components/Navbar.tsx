@@ -6,7 +6,7 @@ export default function Navbar() {
       position='static'
       w='100%'
       pos='relative'
-      p='5px'
+      p='16px'
 
     >
       <Heading lineHeight='tall' textColor='white' fontSize='40px'>       

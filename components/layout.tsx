@@ -10,7 +10,7 @@ const Layout: React.FunctionComponent<MainLayouProps> = ({ children }) => {
   return(
     <Box as='main'>
       <Navbar/>
-      <Container maxW='100%'>{children}</Container>
+      <Container maxW='100%' h='full'>{children}</Container>
     </Box>
   )
 }
