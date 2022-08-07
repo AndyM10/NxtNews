@@ -8,7 +8,7 @@ interface SidebarProps {
 
 export default function Sidebar({ posts }: SidebarProps) {
 
-  const [themes, setThemes] = useState([])
+  const [themes, setThemes] = useState(new Set<string>())
   
   useEffect(() => {
     setThemes(getThemes(posts))
@@ -24,24 +24,27 @@ export default function Sidebar({ posts }: SidebarProps) {
         Themes
       </Heading>
       <UnorderedList listStyleType='none'>
-        {themes ? themes.map((theme: any) => <ListItem >{theme}</ListItem>): null}
+        {
+          [...themes].map((value) => 
+            <ListItem>{value}</ListItem>
+          )
+        }
       </UnorderedList>
     </Box>
   )
 }
 
-function getThemes(posts: any): [] {
+function getThemes(posts: any): Set<string> {
 
-  const themes = posts ? posts.map((post: any) => {
-    let arr =[]
+  let themes = new Set<string>()
+  
+  posts ? posts.map((post: NewsDataResult) => {
     post.keywords ? 
-      arr.push(post.keywords[Math.floor(Math.random() * post.keywords.length)]) :
+      themes.add(post.keywords[Math.floor(Math.random() * post.keywords.length)]) :
       null
-    return arr
-  }): null
-
-  console.log(themes)
-  return themes
+  }) : null
+ 
+ return themes
 
 }
 
