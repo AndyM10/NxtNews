@@ -1,5 +1,5 @@
-import { Box, LinkBox, Heading, LinkOverlay, Flex } from '@chakra-ui/react';
-import { NewsDataResult } from '../types/types';
+import { Box, Flex, Heading, LinkBox, LinkOverlay } from '@chakra-ui/react'
+import { NewsDataResult } from '../types/types'
 
 interface PostFeedProps {
   posts: NewsDataResult[]
@@ -11,23 +11,30 @@ interface PostItemProps {
 
 export default function PostFeed({ posts }: PostFeedProps) {
   return (
-    <Flex flexDir='row' w='80%' flexWrap='wrap'>
-      {posts ? posts.map((post: any) => <PostItem post={post}/>): null}
+    <Flex flexDir="row" flexWrap="wrap" w="80%">
+      {posts
+        ? posts.map((post: any) => <PostItem post={post} />)
+        : null}
     </Flex>
   )
 }
 
 function PostItem({ post }: PostItemProps) {
-  
-  return(
-    <Box p='2'>
-      <LinkBox as='article' borderWidth='1px' rounded='md' p='3'>
-        <Heading size='md' my='2'>
+
+  return (
+    <Box p="2">
+      <LinkBox
+        as="article"
+        borderWidth="1px"
+        p="3"
+        rounded="md"
+      >
+        <Heading my="2" size="md">
           <LinkOverlay href={post.link} isExternal>
             {post.title}
           </LinkOverlay>
         </Heading>
       </LinkBox>
-   </Box>
+    </Box>
   )
 }
