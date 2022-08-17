@@ -3,7 +3,7 @@ const nextConfig = {
   reactStrictMode: true,
   swcMinify: true,
   env: {
-    API_KEY: 'pub_981516e75461ccda300d6b985a4163932222'
+    API_KEY: 'pub_98150afc0e9498e50c956afec933080f051c'
   }
 }
 

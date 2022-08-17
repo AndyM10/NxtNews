@@ -1,18 +1,21 @@
 import { Box, Button, Heading, Highlight, Modal, ModalBody, ModalCloseButton, ModalContent, ModalHeader, ModalOverlay, Text, useDisclosure } from '@chakra-ui/react'
 import { auth, googleAuthProvider } from '../lib/firebase'
-import { signInWithPopup } from 'firebase/auth'
+import { signInWithPopup, signOut } from 'firebase/auth'
+import { useContext } from 'react'
+import { UserContext } from '@lib/context'
+import { useRouter } from 'next/router'
+import UsernameForm from './UsernameForm'
+
 
 export default function Navbar() {
-
-  /*
-   * 1. User is signed out show Signbutton
-   * 2. user signed in, but missing username show username form
-   * 3. user is signed in, has username show sign button
-   */
-
-  const user = null
-  const username = null
+  const { user, username } = useContext(UserContext)
   const { isOpen, onOpen, onClose } = useDisclosure()
+  const router =  useRouter()
+  console.log(user, username)
+  const signOutNow = () => {
+    signOut(auth)
+    router.reload()
+  }
 
   return (
     <Box
@@ -37,20 +40,31 @@ export default function Navbar() {
         </Text>
       </Heading>
 
-      {!username &&
+      {!username && (
+        <>
+          <Button onClick={signOutNow}>Sign Out</Button>
+        </>
+      )}
+
+      {!user &&
         <>
           <Button onClick={onOpen}>Sign In</Button>
-          <Modal isOpen={isOpen} onClose={onClose}>
-            <ModalOverlay />
-            <ModalContent>
-              <ModalHeader>Sign In</ModalHeader>
-              <ModalCloseButton />
-              <ModalBody>
-                <SignInButton />
-              </ModalBody>
-            </ModalContent>
-          </Modal>
-        </>}
+        </>
+      }
+      <Modal isOpen={isOpen} onClose={onClose}>
+        <ModalOverlay />
+        <ModalContent>
+          <ModalHeader>Sign In</ModalHeader>
+          <ModalCloseButton />
+          <ModalBody>
+            {!username && (
+              <>
+                <SignInButton/>
+              </>
+            )}
+          </ModalBody>
+        </ModalContent>
+      </Modal>
     </Box>
   )
 }
