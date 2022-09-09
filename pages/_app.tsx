@@ -21,10 +21,10 @@ function MyApp({ Component, pageProps }: AppProps) {
       <ChakraProvider theme={theme}>
         <Layout>
           <Component {...pageProps} />
-      </Layout>
+        </Layout>
       </ChakraProvider>
     </UserContext.Provider>
-    
+
   )
 }
 

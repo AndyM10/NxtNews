@@ -10,8 +10,8 @@ import UsernameForm from './UsernameForm'
 export default function Navbar() {
   const { user, username } = useContext(UserContext)
   const { isOpen, onOpen, onClose } = useDisclosure()
-  const router =  useRouter()
-  console.log(user, username)
+  const router = useRouter()
+
   const signOutNow = () => {
     signOut(auth)
     router.reload()
@@ -39,32 +39,24 @@ export default function Navbar() {
           Personalised news platform giving you the stories that matter.
         </Text>
       </Heading>
-
-      {!username && (
+      {username && (
         <>
           <Button onClick={signOutNow}>Sign Out</Button>
         </>
       )}
 
-      {!user &&
-        <>
-          <Button onClick={onOpen}>Sign In</Button>
-        </>
-      }
-      <Modal isOpen={isOpen} onClose={onClose}>
-        <ModalOverlay />
-        <ModalContent>
-          <ModalHeader>Sign In</ModalHeader>
-          <ModalCloseButton />
-          <ModalBody>
-            {!username && (
-              <>
-                <SignInButton/>
-              </>
-            )}
-          </ModalBody>
-        </ModalContent>
-      </Modal>
+      {!username &&
+        <Button onClick={onOpen}>Sign In</Button>}
+        <Modal isOpen={isOpen} onClose={onClose}>
+          <ModalOverlay />
+          <ModalContent>
+            <ModalHeader>Sign In</ModalHeader>
+            <ModalCloseButton />
+            <ModalBody>
+              {user ? <UsernameForm/>: <SignInButton />}
+            </ModalBody>
+          </ModalContent>
+        </Modal>
     </Box>
   )
 }
