@@ -53,7 +53,7 @@ export default function Navbar() {
             <ModalHeader>Sign In</ModalHeader>
             <ModalCloseButton />
             <ModalBody>
-              {user ? <UsernameForm/>: <SignInButton />}
+              {user ? <UsernameForm/> : <SignInButton />}
             </ModalBody>
           </ModalContent>
         </Modal>
