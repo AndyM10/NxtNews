@@ -8,7 +8,7 @@ const styles = {
     'body': {
       bg: '#111'
     }
-  }
+  },
 }
 
 const theme = extendTheme({ styles })

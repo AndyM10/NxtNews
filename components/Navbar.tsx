@@ -48,7 +48,7 @@ export default function Navbar() {
       {!username &&
         <Button onClick={onOpen}>Sign In</Button>}
         <Modal isOpen={isOpen} onClose={onClose}>
-          <ModalOverlay />
+          <ModalOverlay/>
           <ModalContent>
             <ModalHeader>Sign In</ModalHeader>
             <ModalCloseButton />

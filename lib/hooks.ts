@@ -2,7 +2,6 @@ import { auth, firestore } from './firebase'
 import { Unsubscribe, doc, onSnapshot } from 'firebase/firestore'
 import { useAuthState } from 'react-firebase-hooks/auth'
 import { useEffect, useState } from 'react'
-import { useDisclosure } from '@chakra-ui/react'
 
 export function useUserData() {
   const [user] = useAuthState(auth)
