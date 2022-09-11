@@ -23,7 +23,7 @@ export default function Sidebar({ posts }: SidebarProps) {
       p="5px"
       w="20%"
     >
-      <Heading textColor="white">
+      <Heading>
         Themes
       </Heading>
       <UnorderedList listStyleType="none">

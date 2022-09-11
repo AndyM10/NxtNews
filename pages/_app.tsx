@@ -3,15 +3,7 @@ import type { AppProps } from 'next/app'
 import Layout from '../components/layout'
 import { UserContext } from '@lib/context'
 import { useUserData } from '@lib/hooks'
-const styles = {
-  global: {
-    'body': {
-      bg: '#111'
-    }
-  },
-}
-
-const theme = extendTheme({ styles })
+import theme from '@lib/theme'
 
 function MyApp({ Component, pageProps }: AppProps) {
   const userData = useUserData()
