@@ -14,15 +14,20 @@ const styles = {
     }
   })
 }
+
+
 const components = {
-  Modal: (props: ComponentStyleConfig) => ({
+  Modal: {
     baseStyle: {
       dialog: {
-        bg: mode('#000','#FFF')(props)
+        bg:'#FFF',
+        _dark: {
+          bg: '#121212'
+        }
       }
     }
-  })
+  }
 }
 
-const theme = extendTheme({styles, config, components})
+const theme = extendTheme({styles, config, components })
 export default theme

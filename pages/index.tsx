@@ -9,8 +9,10 @@ import Head from 'next/head'
 
 export const getServerSideProps: GetServerSideProps = async () => {
   const key = process.env.API_KEY
-  const data = await fetch(`https://newsdata.io/api/1/news?apikey=${key}&country=gb`)
+  const data = await fetch(`https://newsdata.io/api/1/news?apikey=${key}&country=gb&page=3`)
   const responseData: NewsDataResponse = await data.json()
+
+  console.log(responseData)
 
   return {
     props: { responseData }
