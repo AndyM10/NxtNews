@@ -9,17 +9,16 @@ import Head from 'next/head'
 
 export const getServerSideProps: GetServerSideProps = async () => {
   const key = process.env.API_KEY
-  const data = await fetch(`https://newsdata.io/api/1/news?apikey=${key}&country=gb&page=3`)
+  const data = await fetch(`https://newsdata.io/api/1/news?apikey=${key}&country=gb`)
   const responseData: NewsDataResponse = await data.json()
-
-  console.log(responseData)
 
   return {
     props: { responseData }
   }
 }
 
-const Home: NextPage = ({ responseData }: InferGetServerSidePropsType<typeof getServerSideProps>) => <>
+const Home: NextPage = ({ responseData }: InferGetServerSidePropsType<typeof getServerSideProps>) => 
+  <>
     <Head>
       <title>NxtNews</title>
     </Head>

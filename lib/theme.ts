@@ -1,5 +1,5 @@
-import { ComponentStyleConfig, extendTheme, type ThemeConfig } from '@chakra-ui/react'
-import { mode, GlobalStyleProps } from '@chakra-ui/theme-tools'
+import { ComponentStyleConfig, type ThemeConfig, extendTheme } from '@chakra-ui/react'
+import { GlobalStyleProps, mode } from '@chakra-ui/theme-tools'
 
 const config: ThemeConfig = {
   initialColorMode: 'dark',
@@ -20,7 +20,7 @@ const components = {
   Modal: {
     baseStyle: {
       dialog: {
-        bg:'#FFF',
+        bg: '#FFF',
         _dark: {
           bg: '#121212'
         }
@@ -29,5 +29,8 @@ const components = {
   }
 }
 
-const theme = extendTheme({styles, config, components })
+const theme = extendTheme({ styles,
+  config,
+  components })
+
 export default theme

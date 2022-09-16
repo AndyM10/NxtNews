@@ -20,6 +20,12 @@ export default function PostFeed({ posts }: PostFeedProps) {
 }
 
 function PostItem({ post }: PostItemProps) {
+  const [posts, setPosts] = useState(responseData.results)
+  const [postEnd, setPostEnd] = useState(false)
+
+  const getMorePost = async () => {
+
+  }
 
   return (
     <Box p="2">
