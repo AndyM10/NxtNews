@@ -1,40 +1,27 @@
-import { Box, Flex, Heading, LinkBox, LinkOverlay } from '@chakra-ui/react'
-import { NewsDataResult } from '../types/types'
+import { Box, Flex, Heading, LinkBox, LinkOverlay } from "@chakra-ui/react";
+import { NewsDataResult } from "../types/types";
+import { useState } from "react";
 
 interface PostFeedProps {
-  posts: NewsDataResult[]
+  posts: NewsDataResult[];
 }
 
 interface PostItemProps {
-  post: NewsDataResult
+  post: NewsDataResult;
 }
 
 export default function PostFeed({ posts }: PostFeedProps) {
   return (
     <Flex flexDir="row" flexWrap="wrap" w="80%">
-      {posts
-        ? posts.map((post: any) => <PostItem post={post} />)
-        : null}
+      {posts ? posts.map((post: any) => <PostItem post={post} />) : null}
     </Flex>
-  )
+  );
 }
 
 function PostItem({ post }: PostItemProps) {
-  const [posts, setPosts] = useState(responseData.results)
-  const [postEnd, setPostEnd] = useState(false)
-
-  const getMorePost = async () => {
-
-  }
-
   return (
     <Box p="2">
-      <LinkBox
-        as="article"
-        borderWidth="1px"
-        p="3"
-        rounded="md"
-      >
+      <LinkBox as="article" borderWidth="1px" p="3" rounded="md">
         <Heading my="2" size="md">
           <LinkOverlay href={post.link} isExternal>
             {post.title}
@@ -42,5 +29,5 @@ function PostItem({ post }: PostItemProps) {
         </Heading>
       </LinkBox>
     </Box>
-  )
+  );
 }
