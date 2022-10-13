@@ -46,7 +46,7 @@ export default function Navbar() {
         <SunIcon />
       </Button>
       {username
-        ? <Button onClick={signOutNow}>Sign Out</Button>
+        ? <Button ml="5" onClick={signOutNow}>Sign Out</Button>
         : null}
 
       {!username &&
