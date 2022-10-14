@@ -1,5 +1,8 @@
-import type { NextPage } from 'next'
-import { GetServerSideProps, InferGetServerSidePropsType } from 'next'
+import {
+  GetServerSideProps,
+  InferGetServerSidePropsType,
+  NextPage
+} from 'next'
 
 import Sidebar from '../components/Sidebar'
 import PostFeed from '../components/PostFeed'
@@ -17,14 +20,18 @@ export const getServerSideProps: GetServerSideProps = async () => {
   }
 }
 
-const Home: NextPage = ({ responseData }: InferGetServerSidePropsType<typeof getServerSideProps>) => 
-  <>
+const Home: NextPage = ({
+  responseData
+}: InferGetServerSidePropsType<typeof getServerSideProps>) => <>
     <Head>
       <title>NxtNews</title>
     </Head>
     <Flex h="full" w="100%">
-      <Sidebar posts={responseData.results} />
-      <PostFeed posts={responseData.results} />
+      <Sidebar postsList={responseData.results} />
+      <PostFeed
+        postStart={responseData.nextPage}
+        postsList={responseData.results}
+      />
     </Flex>
    </>
 

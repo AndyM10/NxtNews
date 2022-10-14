@@ -1,4 +1,4 @@
-import { ComponentStyleConfig, type ThemeConfig, extendTheme } from '@chakra-ui/react'
+import { type ThemeConfig, extendTheme } from '@chakra-ui/react'
 import { GlobalStyleProps, mode } from '@chakra-ui/theme-tools'
 
 const config: ThemeConfig = {

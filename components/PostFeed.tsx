@@ -1,19 +1,38 @@
-import { Box, Flex, Heading, LinkBox, LinkOverlay } from "@chakra-ui/react";
-import { NewsDataResult } from "../types/types";
-import { useState } from "react";
+import {
+  Box,
+  Button,
+  Flex,
+  Heading,
+  LinkBox,
+  LinkOverlay,
+} from "@chakra-ui/react";
+import { NewsDataResult, NewsDataResponse } from "../types/types";
+import { useState, useEffect } from "react";
+import { useGetFetchPosts } from "@lib/hooks";
 
 interface PostFeedProps {
-  posts: NewsDataResult[];
+  postsList: NewsDataResult[];
+  postStart: number;
 }
 
 interface PostItemProps {
   post: NewsDataResult;
 }
 
-export default function PostFeed({ posts }: PostFeedProps) {
+export default function PostFeed({ postsList, postStart }: PostFeedProps) {
+  const [posts, setPosts] = useState(postsList);
+  const [postCursor, setPostsCursor] = useState(postStart);
+  const increaseCursor = async () => {
+    setPostsCursor(postCursor + 1);
+    const data = await useGetFetchPosts(postCursor);
+
+    setPosts(posts.concat(data!));
+  };
+
   return (
     <Flex flexDir="row" flexWrap="wrap" w="80%">
       {posts ? posts.map((post: any) => <PostItem post={post} />) : null}
+      <Button onClick={increaseCursor}>Load More Articles</Button>
     </Flex>
   );
 }

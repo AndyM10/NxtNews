@@ -19,6 +19,7 @@
       "jsx": true
     }
   },
+  "plugins": ["unused-imports"],
   "rules": {
     "indent": ["error", 2],
     "quotes": ["error", "single"],
@@ -27,18 +28,42 @@
     "max-len": ["error", { "code": 120 }],
     "no-magic-numbers": 0,
     "max-lines-per-function": 0,
-    "space-before-function-paren": ["error", {
-      "anonymous": "never",
-      "named": "never",
-      "asyncArrow": "always"
-    }],
+    "space-before-function-paren": [
+      "error",
+      {
+        "anonymous": "never",
+        "named": "never",
+        "asyncArrow": "always"
+      }
+    ],
     "function-call-argument-newline": 0,
     "padded-blocks": 0,
     "padding-line-between-statements": [
       "error",
       { "blankLine": "always", "prev": "*", "next": "return" },
-      { "blankLine": "always", "prev": ["const", "let", "var"], "next": "*"},
-      { "blankLine": "any",    "prev": ["const", "let", "var"], "next": ["const", "let", "var"]}
+      { "blankLine": "always", "prev": ["const", "let", "var"], "next": "*" },
+      {
+        "blankLine": "any",
+        "prev": ["const", "let", "var"],
+        "next": ["const", "let", "var"]
+      }
+    ],
+    "no-unused-vars": "off",
+    "unused-imports/no-unused-imports": "error",
+    "unused-imports/no-unused-vars": [
+      "warn",
+      {
+        "vars": "all",
+        "varsIgnorePattern": "^_",
+        "args": "after-used",
+        "argsIgnorePattern": "^_"
+      }
+    ],
+    "sort-imports": [
+      "error",
+      {
+        "ignoreDeclarationSort": true
+      }
     ],
     "object-curly-spacing": ["error", "always"],
     "one-var": ["error", "never"],
@@ -53,7 +78,10 @@
     "react/jsx-max-depth": 0,
     "react/jsx-newline": 0,
     "react/jsx-props-no-spreading": 0,
-    "react/jsx-max-props-per-line": ["error", {"maximum": {"single": 3, "multi": 1}}]
+    "react/jsx-max-props-per-line": [
+      "error",
+      { "maximum": { "single": 3, "multi": 1 } }
+    ]
   },
   "ignorePatterns": ["node_modules/", ".next/"]
 }
