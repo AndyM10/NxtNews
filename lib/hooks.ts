@@ -2,7 +2,6 @@ import { auth, firestore } from "./firebase";
 import { Unsubscribe, doc, onSnapshot } from "firebase/firestore";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { useEffect, useState } from "react";
-import { NewsDataResponse } from "types/types";
 export function useUserData() {
   const [user] = useAuthState(auth);
   const [username, setUsername] = useState(null);
@@ -28,12 +27,3 @@ export function useUserData() {
     username,
   };
 }
-export const useGetFetchPosts = async (cursor: number) => {
-  const key = process.env.API_KEY;
-  const data = await fetch(
-    `https://newsdata.io/api/1/news?apikey=${key}&country=gb&page${cursor}`
-  );
-  const responseData: NewsDataResponse = await data.json();
-
-  return responseData.results;
-};

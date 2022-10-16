@@ -6,9 +6,9 @@ import {
   LinkBox,
   LinkOverlay,
 } from "@chakra-ui/react";
-import { NewsDataResult, NewsDataResponse } from "../types/types";
-import { useState, useEffect } from "react";
-import { useGetFetchPosts } from "@lib/hooks";
+import { NewsDataResult } from "../types/types";
+import { useState } from "react";
+import Loader from "../components/Loader";
 
 interface PostFeedProps {
   postsList: NewsDataResult[];
@@ -22,17 +22,27 @@ interface PostItemProps {
 export default function PostFeed({ postsList, postStart }: PostFeedProps) {
   const [posts, setPosts] = useState(postsList);
   const [postCursor, setPostsCursor] = useState(postStart);
-  const increaseCursor = async () => {
-    setPostsCursor(postCursor + 1);
-    const data = await useGetFetchPosts(postCursor);
+  const [loading, setLoading] = useState(false);
 
-    setPosts(posts.concat(data!));
+  const increaseCursor = async () => {
+    setLoading(true);
+    setPostsCursor(postCursor + 1);
+    const data = await fetch("/api/getMorePosts", {
+      body: `{cursor: ${postCursor}}`,
+      method: "POST",
+    }).then((res) => res.json());
+
+    setPosts(posts.concat(data));
+    setLoading(false);
   };
 
   return (
-    <Flex flexDir="row" flexWrap="wrap" w="80%">
-      {posts ? posts.map((post: any) => <PostItem post={post} />) : null}
-      <Button onClick={increaseCursor}>Load More Articles</Button>
+    <Flex flexDir="column" flexWrap="wrap" w="80%">
+      <Flex flexDir="row" flexWrap="wrap">
+        {posts ? posts.map((post: any) => <PostItem post={post} />) : null}
+      </Flex>
+      {!loading && <Button onClick={increaseCursor}>Load More Articles</Button>}
+      <Loader show={loading} />
     </Flex>
   );
 }
