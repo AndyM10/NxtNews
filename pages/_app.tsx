@@ -1,12 +1,12 @@
-import { ChakraProvider, extendTheme } from '@chakra-ui/react'
-import type { AppProps } from 'next/app'
-import Layout from '../components/layout'
-import { UserContext } from '@lib/context'
-import { useUserData } from '@lib/hooks'
-import theme from '@lib/theme'
+import { ChakraProvider } from "@chakra-ui/react";
+import type { AppProps } from "next/app";
+import Layout from "../components/layout";
+import { UserContext } from "@lib/context";
+import { useUserData } from "@lib/hooks";
+import theme from "@lib/theme";
 
 function MyApp({ Component, pageProps }: AppProps) {
-  const userData = useUserData()
+  const userData = useUserData();
 
   return (
     <UserContext.Provider value={userData}>
@@ -16,8 +16,7 @@ function MyApp({ Component, pageProps }: AppProps) {
         </Layout>
       </ChakraProvider>
     </UserContext.Provider>
-
-  )
+  );
 }
 
-export default MyApp
+export default MyApp;

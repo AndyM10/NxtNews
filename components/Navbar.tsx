@@ -1,4 +1,19 @@
-import { Box, Button, Heading, Highlight, Modal, ModalBody, ModalCloseButton, ModalContent, ModalHeader, ModalOverlay, Text, useColorMode, useColorModeValue, useDisclosure } from '@chakra-ui/react'
+import {
+  Box,
+  Button,
+  Heading,
+  Highlight,
+  Modal,
+  ModalBody,
+  ModalCloseButton,
+  ModalContent,
+  ModalHeader,
+  ModalOverlay,
+  Text,
+  useColorMode,
+  useColorModeValue,
+  useDisclosure
+} from '@chakra-ui/react'
 import { SunIcon } from '@chakra-ui/icons'
 import { auth, googleAuthProvider } from '../lib/firebase'
 import { signInWithPopup, signOut } from 'firebase/auth'
@@ -31,14 +46,16 @@ export default function Navbar() {
       <Heading fontSize="40px" lineHeight="tall">
         <Highlight
           query="News"
-          styles={{ rounded: 'full',
+          styles={{
+            rounded: 'full',
             px: '2',
             color: highlighTxt,
-            bg: highlightBG }}
+            bg: highlightBG
+          }}
         >
           NxtNews
         </Highlight>
-        <Text fontSize="20px" >
+        <Text fontSize="20px">
           Personalised news platform giving you the stories that matter.
         </Text>
       </Heading>
@@ -46,20 +63,23 @@ export default function Navbar() {
         <SunIcon />
       </Button>
       {username
-        ? <Button ml="5" onClick={signOutNow}>Sign Out</Button>
+        ? <Button ml="5" onClick={signOutNow}>
+          Sign Out
+        </Button>
         : null}
 
       {!username &&
-        <Button ml="5" onClick={onOpen}>Sign In</Button>}
+        <Button ml="5" onClick={onOpen}>
+          Sign In
+        </Button>}
       <Modal isOpen={isOpen} onClose={onClose}>
         <ModalOverlay />
         <ModalContent>
           <ModalHeader>Sign In</ModalHeader>
           <ModalCloseButton />
-          <ModalBody>
-            {user
-              ? <UsernameForm />
-              : <SignInButton />}
+          <ModalBody>{user
+            ? <UsernameForm />
+            : <SignInButton />}
           </ModalBody>
         </ModalContent>
       </Modal>
@@ -72,9 +92,5 @@ function SignInButton(): JSX.Element {
     await signInWithPopup(auth, googleAuthProvider)
   }
 
-  return (
-    <Button onClick={signInWithGoogle}>
-      Google
-    </Button>
-  )
+  return <Button onClick={signInWithGoogle}>Google</Button>
 }

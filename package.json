@@ -10,32 +10,34 @@
     "lint:fix": "next lint --fix"
   },
   "dependencies": {
-    "@babel/core": "^7.18.9",
-    "@chakra-ui/icons": "^2.0.9",
-    "@emotion/react": "^11",
-    "@emotion/styled": "^11",
-    "core-js": "^3.24.1",
-    "firebase": "^9.9.2",
+    "@babel/core": "^7.19.3",
+    "@chakra-ui/icons": "^2.0.11",
+    "@emotion/react": "^11.10.4",
+    "@emotion/styled": "^11.10.4",
+    "core-js": "^3.25.5",
+    "firebase": "^9.12.1",
     "formik": "^2.2.9",
-    "framer-motion": "^6",
+    "framer-motion": "^6.5.1",
     "lodash": "^4.17.21",
     "next": "12.2.3",
     "react": "18.2.0",
     "react-dom": "18.2.0",
-    "react-firebase-hooks": "^5.0.3"
+    "react-firebase-hooks": "^5.0.3",
+    "swr": "^1.3.0"
   },
   "devDependencies": {
-    "@chakra-ui/react": "^2.2.4",
-    "@chakra-ui/system": "^2.2.2",
-    "@chakra-ui/theme-tools": "^2.0.5",
-    "@types/lodash": "^4.14.184",
+    "@chakra-ui/react": "^2.3.5",
+    "@chakra-ui/system": "^2.2.12",
+    "@chakra-ui/theme-tools": "^2.0.12",
+    "@types/lodash": "^4.14.186",
     "@types/node": "18.6.1",
     "@types/react": "18.0.15",
     "@types/react-dom": "18.0.6",
     "eslint": "8.20.0",
     "eslint-config-next": "12.2.3",
     "eslint-plugin-import": "^2.26.0",
-    "eslint-plugin-react": "^7.30.1",
+    "eslint-plugin-react": "^7.31.10",
+    "eslint-plugin-unused-imports": "^2.0.0",
     "typescript": "4.7.4"
   }
 }
