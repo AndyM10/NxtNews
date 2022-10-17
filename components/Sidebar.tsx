@@ -1,17 +1,15 @@
 import { Box, Heading, ListItem, UnorderedList } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
-import { NewsDataResult } from "../types/types";
+import { Article } from "../types/types";
 
 interface SidebarProps {
-  postsList: NewsDataResult[];
+  postsList: Array<Article>;
 }
 
 export default function Sidebar({ postsList }: SidebarProps) {
   const [themes, setThemes] = useState(new Set<string>());
 
-  useEffect(() => {
-    setThemes(getThemes(postsList));
-  }, [setThemes]);
+  setThemes(getThemes(postsList));
 
   return (
     <Box minH="full" p="5px" w="20%">
@@ -33,16 +31,14 @@ export default function Sidebar({ postsList }: SidebarProps) {
   );
 }
 
-function getThemes(posts: any): Set<string> {
+function getThemes(posts: Array<Article>): Set<string> {
   const themes = new Set<string>();
+  console.log(posts);
 
   posts
-    ? posts.map((post: NewsDataResult) => {
-        post.keywords
-          ? themes.add(
-              post.keywords[Math.floor(Math.random() * post.keywords.length)]
-            )
-          : null;
+    ? posts.map((post: Article) => {
+        const words = post.title.split(" ");
+        themes.add(words[Math.floor(Math.random() * words.length)]);
       })
     : null;
 

@@ -6,22 +6,20 @@ import {
   LinkBox,
   LinkOverlay,
 } from "@chakra-ui/react";
-import { NewsDataResult } from "../types/types";
 import { useState } from "react";
 import Loader from "../components/Loader";
-
+import { Article } from "../types/types";
 interface PostFeedProps {
-  postsList: NewsDataResult[];
-  postStart: number;
+  postsList: Array<Article>;
 }
 
 interface PostItemProps {
-  post: NewsDataResult;
+  post: Article;
 }
 
-export default function PostFeed({ postsList, postStart }: PostFeedProps) {
+export default function PostFeed({ postsList }: PostFeedProps) {
   const [posts, setPosts] = useState(postsList);
-  const [postCursor, setPostsCursor] = useState(postStart);
+  const [postCursor, setPostsCursor] = useState(1);
   const [loading, setLoading] = useState(false);
 
   const increaseCursor = async () => {
@@ -52,7 +50,7 @@ function PostItem({ post }: PostItemProps) {
     <Box p="2">
       <LinkBox as="article" borderWidth="1px" p="3" rounded="md">
         <Heading my="2" size="md">
-          <LinkOverlay href={post.link} isExternal>
+          <LinkOverlay href={post.url} isExternal>
             {post.title}
           </LinkOverlay>
         </Heading>

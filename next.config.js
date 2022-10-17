@@ -3,8 +3,8 @@ const nextConfig = {
   reactStrictMode: true,
   swcMinify: true,
   env: {
-    API_KEY: 'pub_98150afc0e9498e50c956afec933080f051c'
-  }
-}
+    API_KEY: "429cd3d776eb4e27964119303500f281",
+  },
+};
 
-module.exports = nextConfig
+module.exports = nextConfig;
