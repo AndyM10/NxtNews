@@ -9,6 +9,7 @@ import {
 import { useState } from "react";
 import Loader from "../components/Loader";
 import { Article } from "../types/types";
+
 interface PostFeedProps {
   postsList: Array<Article>;
 }
@@ -25,6 +26,7 @@ export default function PostFeed({ postsList }: PostFeedProps) {
   const increaseCursor = async () => {
     setLoading(true);
     setPostsCursor(postCursor + 1);
+    console.log(postCursor);
     const data = await fetch("/api/getMorePosts", {
       body: `{cursor: ${postCursor}}`,
       method: "POST",
