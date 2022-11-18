@@ -21,12 +21,12 @@ interface PostItemProps {
 
 export default function PostFeed({ postsList, sources }: PostFeedProps) {
   const [posts, setPosts] = useState(postsList);
-  const [postCursor, setPostsCursor] = useState(1);
+  const [postCursor, setPostsCursor] = useState(2);
   const [loading, setLoading] = useState(false);
-
   const increaseCursor = async () => {
     setLoading(true);
     setPostsCursor(postCursor + 1);
+    console.log(postCursor)
     const data = await fetch("/api/getMorePosts", {
       body: JSON.stringify({ cursor: postCursor, sources: sources }),
       method: "POST",
