@@ -26,7 +26,6 @@ export default function PostFeed({ postsList, sources }: PostFeedProps) {
   const increaseCursor = async () => {
     setLoading(true);
     setPostsCursor(postCursor + 1);
-    console.log(postCursor)
     const data = await fetch("/api/getMorePosts", {
       body: JSON.stringify({ cursor: postCursor, sources: sources }),
       method: "POST",
