@@ -9,15 +9,17 @@ import {
 import { useState } from "react";
 import Loader from "../components/Loader";
 import { Article } from "../types/types";
+
 interface PostFeedProps {
   postsList: Array<Article>;
+  sources: string
 }
 
 interface PostItemProps {
   post: Article;
 }
 
-export default function PostFeed({ postsList }: PostFeedProps) {
+export default function PostFeed({ postsList, sources }: PostFeedProps) {
   const [posts, setPosts] = useState(postsList);
   const [postCursor, setPostsCursor] = useState(1);
   const [loading, setLoading] = useState(false);
@@ -26,7 +28,7 @@ export default function PostFeed({ postsList }: PostFeedProps) {
     setLoading(true);
     setPostsCursor(postCursor + 1);
     const data = await fetch("/api/getMorePosts", {
-      body: `{cursor: ${postCursor}}`,
+      body: JSON.stringify({ cursor: postCursor, sources: sources }),
       method: "POST",
     }).then((res) => res.json());
 
