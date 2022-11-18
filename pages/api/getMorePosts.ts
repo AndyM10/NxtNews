@@ -9,10 +9,9 @@ export default async function handler(
 ) {
   const key = process.env.API_KEY;
   const query = "";
-  const sources = "google-news-uk";
-  const page = eval(req.body);
-  console.log(page);
-  const url = `https://newsapi.org/v2/everything?q=${query}&sources=${sources}&apiKey=${key}&page=${page}&language=en`;
+  const data = JSON.parse(req.body);
+  const { cursor, sources } = data
+  const url = `https://newsapi.org/v2/everything?q=${query}&sources=${sources}&apiKey=${key}&page=${cursor}&language=en`;
 
   try {
     const data = await fetch(url);
