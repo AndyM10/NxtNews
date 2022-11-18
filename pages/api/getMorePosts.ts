@@ -16,9 +16,6 @@ export default async function handler(
   try {
     const data = await fetch(url);
     const resp: NewsDataResponse = await data.json();
-    console.log(resp);
-    console.log(url);
-    console.log(resp.articles);
     res.status(200).json(resp.articles);
   } catch (err) {
     const error = ErrorMessage(err);
