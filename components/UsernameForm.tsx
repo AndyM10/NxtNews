@@ -1,11 +1,11 @@
-import { Button, FormControl, FormErrorMessage, FormLabel, Input, useModalContext } from '@chakra-ui/react'
+import { Button, FormControl, FormErrorMessage, FormLabel, Input, Textarea, useModalContext } from '@chakra-ui/react'
 import { UserContext } from '@lib/context'
 import { Field, Form, Formik } from 'formik'
 import React, { useCallback, useContext, useEffect, useState } from 'react'
 import debounce from 'lodash/debounce'
 import { doc, getDoc, getFirestore, writeBatch } from 'firebase/firestore'
 import MultiSelect from './MultiSelect'
-import { languageOpts } from 'types/opts'
+import { languageOpts, regionOpts } from 'types/opts'
 
 export default function UsernameForm(): JSX.Element {
   const [
@@ -88,28 +88,37 @@ export default function UsernameForm(): JSX.Element {
 
   return (
     <Formik
-      initialValues={{ name: 'test' }}
+      initialValues={{ username: 'username' }}
       onSubmit={() => {
         onSubmit()
         onClose()
       }}
     >
       {(props) => <Form>
-        <Field name="name" validate={onValidate}>
+        <Field name="username" validate={onValidate}>
           {({ field, form }: { field: any, form: any }) =>
             <FormControl isInvalid={form.errors.name && form.touched.name}>
               <FormLabel>Set Username</FormLabel>
-              <Input {...field} placeholder='test' />
-              <MultiSelect opts={languageOpts} />
+              <Input id='username' {...field} placeholder='username' />
               <FormErrorMessage>{form.errors.name}</FormErrorMessage>
             </FormControl>
           }
+        </Field>
+        <Field>
+          <MultiSelect opts={languageOpts} />
+        </Field>
+        <Field>
+          <MultiSelect opts={regionOpts} />
+        </Field>
+        <Field>
+          <Textarea />
         </Field>
         <Button mt={4} type="submit" width="full"
           isLoading={props.isSubmitting}>
           Submit
         </Button>
-      </Form>}
+      </Form>
+      }
     </Formik>
   )
 }
