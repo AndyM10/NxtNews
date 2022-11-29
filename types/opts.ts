@@ -56,11 +56,15 @@ export const languageOpts: multiSelectOpts[] = [
 
 export const regionOpts: multiSelectOpts[] = [
   {
-    label: 'German',
+    label: 'United Kingdom',
+    value: 'en'
+  },
+  {
+    label: 'Germany',
     value: 'de'
   },
   {
-    label: 'Spanish',
+    label: 'Spain',
     value: 'es'
   }
 ]

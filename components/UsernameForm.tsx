@@ -8,14 +8,8 @@ import MultiSelect from './MultiSelect'
 import { languageOpts, regionOpts } from 'types/opts'
 
 export default function UsernameForm(): JSX.Element {
-  const [
-    formValue,
-    setFormValue
-  ] = useState('')
-  const [
-    isValid,
-    setIsValid
-  ] = useState(false)
+  const [formValue, setFormValue] = useState('')
+  const [isValid, setIsValid] = useState(false)
   const { user, username } = useContext(UserContext)
   const { onClose } = useModalContext()
 
@@ -88,38 +82,45 @@ export default function UsernameForm(): JSX.Element {
 
   return (
     <Formik
-      initialValues={{ username: 'username' }}
+      initialValues={{
+        username: '',
+        language: '',
+        region: '',
+        interests: ''
+      }}
       onSubmit={() => {
         onSubmit()
         onClose()
       }}
     >
-      {(props) => <Form>
-        <Field name="username" validate={onValidate}>
-          {({ field, form }: { field: any, form: any }) =>
-            <FormControl isInvalid={form.errors.name && form.touched.name}>
-              <FormLabel>Set Username</FormLabel>
-              <Input id='username' {...field} placeholder='username' />
-              <FormErrorMessage>{form.errors.name}</FormErrorMessage>
-            </FormControl>
-          }
-        </Field>
-        <Field>
-          <MultiSelect opts={languageOpts} />
-        </Field>
-        <Field>
-          <MultiSelect opts={regionOpts} />
-        </Field>
-        <Field>
-          <Textarea />
-        </Field>
-        <Button mt={4} type="submit" width="full"
-          isLoading={props.isSubmitting}>
-          Submit
-        </Button>
-      </Form>
-      }
-    </Formik>
+      {({ handleSubmit, errors, touched }) => (
+        <form onSubmit={handleSubmit}>
+          <FormControl isInvalid={!!errors.username && touched.username}>
+            <FormLabel htmlFor="Username">Username</FormLabel>
+            <Field
+              as={Input}
+              id="username"
+              name="username"
+              type="username"
+              validate={onValidate}
+            />
+            <FormErrorMessage>{errors.username}</FormErrorMessage>
+          </FormControl>
+          <FormControl isInvalid={!!errors.language}>
+            <FormLabel htmlFor='languageOpts'>Select Languages</FormLabel>
+            <MultiSelect opts={languageOpts} />
+          </FormControl>
+          <FormControl isInvalid={!!errors.region}>
+            <FormLabel htmlFor='RegionOpts'>Select interested regions</FormLabel>
+            <MultiSelect opts={regionOpts} />
+          </FormControl>
+          <FormControl isInvalid={!!errors.interests && touched.interests}>
+            <FormLabel htmlFor='Interests'>Please list your interestes / what information you are looking for...</FormLabel>
+            <Textarea />
+          </FormControl>
+        </form>
+      )}
+    </Formik >
   )
 }
 

@@ -35,6 +35,8 @@ export default function Navbar() {
     router.reload()
   }
 
+  console.log(user, username)
+
   return (
     <Box
       display="flex"
