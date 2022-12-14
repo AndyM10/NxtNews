@@ -1,4 +1,4 @@
-import { ChakraStylesConfig, OptionBase, Select } from "chakra-react-select";
+import { ChakraStylesConfig, OptionBase, Select, useChakraSelectProps } from "chakra-react-select";
 
 export interface multiSelectOpts extends OptionBase {
   label: string,
@@ -6,7 +6,8 @@ export interface multiSelectOpts extends OptionBase {
 }
 
 interface multiSelectProps {
-  opts: multiSelectOpts[]
+  opts: multiSelectOpts[],
+  onChange: (input: multiSelectOpts[]) => void
 }
 
 const chakraStyles: ChakraStylesConfig = {
@@ -15,8 +16,10 @@ const chakraStyles: ChakraStylesConfig = {
     background: '#121212'
   })
 }
-export default function({ opts }: multiSelectProps): JSX.Element {
+
+export default function({ opts, onChange }: multiSelectProps): JSX.Element {
+  const selectProps = useChakraSelectProps({ onChange, options: opts, isMulti: true, chakraStyles })
   return (
-    <Select options={opts} isMulti chakraStyles={chakraStyles} />
+    <Select {...selectProps} />
   )
 }
