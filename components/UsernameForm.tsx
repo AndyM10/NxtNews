@@ -1,4 +1,3 @@
-import { Button, FormControl, FormErrorMessage, FormLabel, Input, useModalContext } from '@chakra-ui/react'
 import { UserContext } from '@lib/context'
 import { Field, Form, Formik } from 'formik'
 import React, { useCallback, useContext, useEffect, useState } from 'react'
@@ -53,7 +52,7 @@ export default function UsernameForm(): JSX.Element {
    * useCallback is required for debounce to work
    */
   const checkUsername = useCallback(
-    debounce(async (username:string) => {
+    debounce(async (username: string) => {
       if (username.length >= 3) {
         const ref = doc(getFirestore(), 'usernames', username)
         const snap = await getDoc(ref)
@@ -74,9 +73,11 @@ export default function UsernameForm(): JSX.Element {
     // Commit both docs together as a batch write.
     const batch = writeBatch(getFirestore())
 
-    batch.set(userDoc, { username: formValue,
+    batch.set(userDoc, {
+      username: formValue,
       photoURL: user.photoURL,
-      displayName: user.displayName })
+      displayName: user.displayName
+    })
     batch.set(usernameDoc, { uid: user.uid })
 
     await batch.commit()
@@ -91,20 +92,20 @@ export default function UsernameForm(): JSX.Element {
       }}
     >
       {(props) => <Form>
-          <Field name="name" validate={onValidate}>
-            {({ field, form }: {field: any, form:any}) => 
-              <FormControl isInvalid={form.errors.name && form.touched.name}>
-                <FormLabel>Set Username</FormLabel>
-                <Input {...field} placeholder='test' />
-                <FormErrorMessage>{form.errors.name}</FormErrorMessage>
-              </FormControl>
-            }
-          </Field>
-          <Button mt={4} type="submit" width="full"
-isLoading={props.isSubmitting}>
-            Submit
-          </Button>
-         </Form>}
+        <Field name="name" validate={onValidate}>
+          {({ field, form }: { field: any, form: any }) =>
+            <FormControl isInvalid={form.errors.name && form.touched.name}>
+              <FormLabel>Set Username</FormLabel>
+              <Input {...field} placeholder='test' />
+              <FormErrorMessage>{form.errors.name}</FormErrorMessage>
+            </FormControl>
+          }
+        </Field>
+        <Button mt={4} type="submit" width="full"
+          isLoading={props.isSubmitting}>
+          Submit
+        </Button>
+      </Form>}
     </Formik>
   )
 }

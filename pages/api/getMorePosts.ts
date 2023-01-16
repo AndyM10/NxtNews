@@ -15,4 +15,4 @@ export default async function handler(
   const resp: NewsDataResponse = await data.json();
 
   res.status(200).json(resp.articles);
-}
+} 

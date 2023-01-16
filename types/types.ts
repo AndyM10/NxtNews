@@ -14,3 +14,17 @@ export interface Article {
   publishedAt: string;
   url: string;
 }
+
+export interface NewsSourcesResponse {
+  status: string;
+  sources: Array<Source>;
+}
+export interface Source {
+  id: string;
+  name: string;
+  description: string;
+  url: string;
+  category: string;
+  language: string;
+  country: string;
+}
