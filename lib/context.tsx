@@ -1,6 +1,6 @@
 import { createContext, useContext, useEffect, useState } from 'react'
 import { User } from 'firebase/auth'
-import { auth, firestore } from '../firebase/firebaseClient'
+import { auth, firestore } from '@lib/firebase/firebaseClient'
 import { Unsubscribe, doc, onSnapshot } from "firebase/firestore";
 import nookies from 'nookies'
 

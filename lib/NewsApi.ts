@@ -7,6 +7,7 @@ const fetcher = async (
 
   try {
     const data = await fetch(url, { cache: 'no-store' });
+    console.log('Getting the news')
     const resp: NewsDataResponse = await data.json();
     return resp;
   } catch (error) {
