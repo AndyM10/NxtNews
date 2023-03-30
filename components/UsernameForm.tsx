@@ -1,18 +1,23 @@
 import { UserContext } from '@lib/context'
-import { Field, Form, Formik } from 'formik'
+import { Field, Form, Formik, } from 'formik'
 import React, { useCallback, useContext, useEffect, useState } from 'react'
 import debounce from 'lodash/debounce'
 import { doc, getDoc, getFirestore, writeBatch } from 'firebase/firestore'
+import MultiSelect, { multiSelectOpts } from './MultiSelect'
+import { languageOpts, regionOpts } from 'types/opts'
+
+interface formValue {
+  username: string,
+  language: string
+  region: string
+  interests: string
+}
 
 export default function UsernameForm(): JSX.Element {
-  const [
-    formValue,
-    setFormValue
-  ] = useState('')
-  const [
-    isValid,
-    setIsValid
-  ] = useState(false)
+  const [formUsernameValue, setFormUsernameValue] = useState('')
+  const [regionFormValue, setRegionFormValue] = useState<multiSelectOpts[]>()
+  const [langFormValue, setLangFormValue] = useState<multiSelectOpts[]>()
+  const [isValid, setIsValid] = useState(false)
   const { user, username } = useContext(UserContext)
   const { onClose } = useModalContext()
 
@@ -30,7 +35,7 @@ export default function UsernameForm(): JSX.Element {
       return 'Name is required'
     }
 
-    setFormValue(name)
+    setFormUsernameValue(name)
     if (!isValid) {
       error = 'Name is taken'
     }
@@ -44,8 +49,8 @@ export default function UsernameForm(): JSX.Element {
   }
 
   useEffect(() => {
-    checkUsername(formValue)
-  }, [formValue])
+    checkUsername(formUsernameValue)
+  }, [formUsernameValue])
 
   /*
    * Hit the database for username match after each debounced change
@@ -64,11 +69,21 @@ export default function UsernameForm(): JSX.Element {
     []
   )
 
-  const onSubmit = async () => {
+  const onRegionSelect = (input: any) => {
+    setRegionFormValue(input as multiSelectOpts[])
+  }
+
+  const onLangSelect = (input: any) => {
+    setLangFormValue(input as multiSelectOpts[])
+  }
+
+  const onSubmit = async (input: formValue) => {
+
 
     // Create refs for both documents
     const userDoc = doc(getFirestore(), 'users', user.uid)
-    const usernameDoc = doc(getFirestore(), 'usernames', formValue)
+    const usernameDoc = doc(getFirestore(), 'usernames', formUsernameValue)
+    const userPreferncesDoc = doc(getFirestore(), 'preferences', user.uid)
 
     // Commit both docs together as a batch write.
     const batch = writeBatch(getFirestore())
@@ -79,15 +94,25 @@ export default function UsernameForm(): JSX.Element {
       displayName: user.displayName
     })
     batch.set(usernameDoc, { uid: user.uid })
+    batch.set(userPreferncesDoc, {
+      language: langFormValue,
+      region: regionFormValue,
+      interests: input.interests
+    })
 
     await batch.commit()
   }
 
   return (
     <Formik
-      initialValues={{ name: 'test' }}
-      onSubmit={() => {
-        onSubmit()
+      initialValues={{
+        username: '',
+        language: '',
+        region: '',
+        interests: ''
+      }}
+      onSubmit={(value) => {
+        onSubmit(value)
         onClose()
       }}
     >
