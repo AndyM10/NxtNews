@@ -13,6 +13,6 @@
 
 @layer components {
   .feed-item {
-    @apply px-2 py-2 border border-dashed border-gray-700 rounded-full
+    @apply mx-2 my-2 px-2 py-2 border border-dashed border-gray-700 rounded-full hover:border-purple-50
   }
 }

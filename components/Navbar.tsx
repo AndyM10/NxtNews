@@ -4,6 +4,7 @@ import { signInWithPopup, signOut } from "firebase/auth"
 import { useRouter, usePathname } from "next/navigation"
 import { auth, googleAuthProvider } from "@lib/firebase/firebaseClient"
 import Link from "next/link"
+import { useEffect } from "react"
 
 export default function Navbar() {
   const router = useRouter()
@@ -14,11 +15,11 @@ export default function Navbar() {
     router.push('/')
   }
 
-  console.log(username)
-  console.log(path)
-  if (path !== `/${username}` && username) {
-    router.push(`/${username}`)
-  }
+  useEffect(() => {
+    if (path !== `/${username}` && username) {
+      router.push(`/${username}`)
+    }
+  }, [username])
 
   return (
     <div className="fixed top-0 flex w-full border-b border-gray-800 bg-black ">

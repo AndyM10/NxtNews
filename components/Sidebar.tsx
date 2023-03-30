@@ -33,13 +33,12 @@ export default function Sidebar({ postsList }: SidebarProps) {
 
 function getThemes(posts: Array<Article>): Set<string> {
   const themes = new Set<string>();
-  console.log(posts);
 
   posts
     ? posts.map((post: Article) => {
-        const words = post.title.split(" ");
-        themes.add(words[Math.floor(Math.random() * words.length)]);
-      })
+      const words = post.title.split(" ");
+      themes.add(words[Math.floor(Math.random() * words.length)]);
+    })
     : null;
 
   return themes;

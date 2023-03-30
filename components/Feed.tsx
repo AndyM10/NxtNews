@@ -12,8 +12,8 @@ const FeedItem = ({ article }: FeedItemProps) => {
   return (
     <div className="feed-item">
       <a href={article.url} target="blank" rel=" noopener noreferrer">
-        <h3> {article.title}</h3>
-        <h4>Source: {article.source.Name}</h4>
+        <h3 className="px-2"> {article.title}</h3>
+        <h4 className="px-2">Source: {article.source.Name}</h4>
       </a>
     </div>
   )
