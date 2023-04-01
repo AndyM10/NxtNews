@@ -1,4 +1,3 @@
-import { Button, FormControl, FormErrorMessage, FormLabel, Input, Textarea, useModalContext } from '@chakra-ui/react'
 import { UserContext } from '@lib/context'
 import { Field, Form, Formik, } from 'formik'
 import React, { useCallback, useContext, useEffect, useState } from 'react'
@@ -90,7 +89,7 @@ export default function UsernameForm(): JSX.Element {
     const batch = writeBatch(getFirestore())
 
     batch.set(userDoc, {
-      username: formUsernameValue,
+      username: formValue,
       photoURL: user.photoURL,
       displayName: user.displayName
     })
@@ -117,37 +116,22 @@ export default function UsernameForm(): JSX.Element {
         onClose()
       }}
     >
-      {({ handleSubmit, errors, touched }) => (
-        <Form onSubmit={handleSubmit}>
-          <FormControl isInvalid={!!errors.username && touched.username}>
-            <FormLabel htmlFor="Username">Username</FormLabel>
-            <Field
-              as={Input}
-              id="username"
-              name="username"
-              type="username"
-              validate={onValidate}
-            />
-            <FormErrorMessage>{errors.username}</FormErrorMessage>
-          </FormControl>
-          <FormControl isInvalid={!!errors.language}>
-            <FormLabel htmlFor='languageOpts'>Select Languages</FormLabel>
-            <MultiSelect opts={languageOpts} onChange={onLangSelect} />
-          </FormControl>
-          <FormControl isInvalid={!!errors.region}>
-            <FormLabel htmlFor='RegionOpts'>Select interested regions</FormLabel>
-            <MultiSelect opts={regionOpts} onChange={onRegionSelect} />
-          </FormControl>
-          <FormControl isInvalid={!!errors.interests && touched.interests}>
-            <FormLabel htmlFor='Interests'>Please list your interestes / what information you are looking for...</FormLabel>
-            <Field as={Textarea} id="interests" name="interests" type="interests" />
-          </FormControl>
-          <Button type='submit'>
-            Enter
-          </Button>
-        </Form>
-      )}
-    </Formik >
+      {(props) => <Form>
+        <Field name="name" validate={onValidate}>
+          {({ field, form }: { field: any, form: any }) =>
+            <FormControl isInvalid={form.errors.name && form.touched.name}>
+              <FormLabel>Set Username</FormLabel>
+              <Input {...field} placeholder='test' />
+              <FormErrorMessage>{form.errors.name}</FormErrorMessage>
+            </FormControl>
+          }
+        </Field>
+        <Button mt={4} type="submit" width="full"
+          isLoading={props.isSubmitting}>
+          Submit
+        </Button>
+      </Form>}
+    </Formik>
   )
 }
 

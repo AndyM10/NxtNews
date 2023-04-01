@@ -1,98 +1,48 @@
-import {
-  Box,
-  Button,
-  Heading,
-  Highlight,
-  Modal,
-  ModalBody,
-  ModalCloseButton,
-  ModalContent,
-  ModalHeader,
-  ModalOverlay,
-  Text,
-  useColorMode,
-  useColorModeValue,
-  useDisclosure
-} from '@chakra-ui/react'
-import { SunIcon } from '@chakra-ui/icons'
-import { auth, googleAuthProvider } from '../lib/firebase'
-import { signInWithPopup, signOut } from 'firebase/auth'
-import { useContext } from 'react'
-import { UserContext } from '@lib/context'
-import { useRouter } from 'next/router'
-import UsernameForm from './UsernameForm'
+'use client'
+import { useAuth } from "@lib/context"
+import { signInWithPopup, signOut } from "firebase/auth"
+import { useRouter, usePathname } from "next/navigation"
+import { auth, googleAuthProvider } from "@lib/firebase/firebaseClient"
+import Link from "next/link"
+import { useEffect } from "react"
 
 export default function Navbar() {
-  const { user, username } = useContext(UserContext)
-  const { toggleColorMode } = useColorMode()
-  const { isOpen, onOpen, onClose } = useDisclosure()
-  const highlightBG = useColorModeValue('#000', '#FFF')
-  const highlighTxt = useColorModeValue('#FFF', '#000')
   const router = useRouter()
-
+  const { user, username } = useAuth()
+  const path = usePathname()
   const signOutNow = () => {
     signOut(auth)
-    router.reload()
+    router.push('/')
   }
 
-  console.log(user, username)
+  useEffect(() => {
+    if (path !== `/${username}` && username) {
+      router.push(`/${username}`)
+    }
+  }, [username])
 
   return (
-    <Box
-      display="flex"
-      p="16px"
-      pos="relative"
-      position="static"
-      w="100%"
-    >
-      <Heading fontSize="40px" lineHeight="tall">
-        <Highlight
-          query="News"
-          styles={{
-            rounded: 'full',
-            px: '2',
-            color: highlighTxt,
-            bg: highlightBG
-          }}
-        >
-          NxtNews
-        </Highlight>
-        <Text fontSize="20px">
-          Personalised news platform giving you the stories that matter.
-        </Text>
-      </Heading>
-      <Button marginLeft="auto" onClick={toggleColorMode}>
-        <SunIcon />
-      </Button>
-      {username
-        ? <Button ml="5" onClick={signOutNow}>
-          Sign Out
-        </Button>
-        : null}
+    <div className="fixed top-0 flex w-full border-b border-gray-800 bg-black ">
+      <div className="flex h-14 items-center py-4 px-4 ">
+        <Link href='/'>
+          <h3 className="font-semibold tracking-wide  group-hover:text-gray-50" >
+            New Nav
+          </h3>
 
-      {!username &&
-        <Button ml="5" onClick={onOpen}>
-          Sign In
-        </Button>}
-      <Modal isOpen={isOpen} onClose={onClose}>
-        <ModalOverlay />
-        <ModalContent>
-          <ModalHeader>Sign In</ModalHeader>
-          <ModalCloseButton />
-          <ModalBody>{user
-            ? <UsernameForm />
-            : <SignInButton />}
-          </ModalBody>
-        </ModalContent>
-      </Modal>
-    </Box>
+        </Link>
+      </div>
+      <div className="flex group absolute right-0 top-0 h-14">
+        {user ? <button className="px-4 right-0 top-0 tracking-wide" onClick={signOutNow}>Sign Out</button> : null}
+        {user ? <div className="px-4 py-4 right-0 top-0">IM IN {username}</div> : <SignInButton />}
+      </div>
+    </div>
   )
 }
 
-function SignInButton(): JSX.Element {
+const SignInButton = (): JSX.Element => {
   const signInWithGoogle = async () => {
     await signInWithPopup(auth, googleAuthProvider)
   }
-
-  return <Button onClick={signInWithGoogle}>Google</Button>
+  return <button className="tracking-wide" onClick={signInWithGoogle}>Sign in</button>
 }
+

@@ -13,12 +13,5 @@ export default async function handler(
   const { cursor, sources } = data
   const url = `https://newsapi.org/v2/everything?q=${query}&sources=${sources}&apiKey=${key}&page=${cursor}&language=en`;
 
-  try {
-    const data = await fetch(url);
-    const resp: NewsDataResponse = await data.json();
-    res.status(200).json(resp.articles);
-  } catch (err) {
-    const error = ErrorMessage(err);
-    res.status(500).send(error!);
-  }
-}
+  res.status(200).json(resp.articles);
+} 

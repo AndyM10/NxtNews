@@ -38,10 +38,8 @@ function getThemes(posts: Array<Article>): Set<string> {
 
   posts
     ? posts.map((post: Article) => {
-      if (post.title) {
-        const words = post.title.split(" ");
-        themes.add(words[Math.floor(Math.random() * words.length)]);
-      }
+      const words = post.title.split(" ");
+      themes.add(words[Math.floor(Math.random() * words.length)]);
     })
     : null;
 

@@ -3,7 +3,11 @@ export interface NewsDataResponse {
   totalResults: number;
   articles: Array<Article>;
 }
-
+export interface NxtUser {
+  displayName: string,
+  photoURL: string,
+  username: string,
+}
 export interface Article {
   title: string;
   author: string;
@@ -17,9 +21,9 @@ export interface Article {
 
 export interface NewsSourcesResponse {
   status: string;
-  sources: Array<Sources>;
+  sources: Array<Source>;
 }
-export interface Sources {
+export interface Source {
   id: string;
   name: string;
   description: string;
@@ -28,4 +32,3 @@ export interface Sources {
   language: string;
   country: string;
 }
-
