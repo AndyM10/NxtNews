@@ -1,64 +1,60 @@
+'use client'
 import React, { useCallback, useEffect } from 'react'
 import debounce from 'lodash/debounce'
 import { doc, getDoc, getFirestore, writeBatch } from 'firebase/firestore'
 import { z } from 'zod'
 import { Form, useForm } from './form/form'
 import { Input, Select, TextArea } from './form/inputs'
+import { SubmitHandler } from 'react-hook-form'
+import { useAuth } from '@lib/context'
+import { User } from 'firebase/auth'
 
 interface formValue {
   username: string,
-  language: string
   region: string
   interests: string
 }
 
+interface usernameFormProps {
+  user: User
+}
+
 const signUpFormSchema = z.object({
-  username: z.string().min(3).max(20),
-  region: z.string(),
-  interests: z.string()
+  username: z.string({ required_error: 'Username is required' }).min(3).max(20).refine(async (username) => {
+    //Checkuser name is available
+    console.log('Checking username availability...', username)
+    const ref = doc(getFirestore(), 'usernames', username)
+    const snap = await getDoc(ref)
+    console.log('Firestore read executed!', snap.exists())
+    return !snap.exists()
+  }, { message: 'Username is already taken', params: undefined }),
+  region: z.string({ required_error: 'Region is required' }),
+  interests: z.string({ required_error: 'Interests are required' })
 })
 
-export default function UsernameForm(): JSX.Element {
+export default function UsernameForm({ user }: usernameFormProps): JSX.Element {
 
   const form = useForm({ schema: signUpFormSchema })
 
-  /*
-   * Hit the database for username match after each debounced change
-   * useCallback is required for debounce to work
-   */
-  const checkUsername = useCallback(
-    debounce(async (username: string) => {
-      if (username.length >= 3) {
-        const ref = doc(getFirestore(), 'usernames', username)
-        const snap = await getDoc(ref)
-
-        console.log('Firestore read executed!', snap.exists())
-        setIsValid(!snap.exists())
-      }
-    }, 500),
-    []
-  )
-
-
-  const onSubmit = async (input: formValue) => {
+  const onSubmit: SubmitHandler<formValue> = async (data) => {
 
     // Create refs for both documents
     const userDoc = doc(getFirestore(), 'users', user.uid)
-    const usernameDoc = doc(getFirestore(), 'usernames', formUsernameValue)
+    const usernameDoc = doc(getFirestore(), 'usernames', data.username)
     const userPreferncesDoc = doc(getFirestore(), 'preferences', user.uid)
 
     // Commit both docs together as a batch write.
     const batch = writeBatch(getFirestore())
 
     batch.set(userDoc, {
-      username: formValue,
+      username: data.username,
       photoURL: user.photoURL,
       displayName: user.displayName
     })
     batch.set(usernameDoc, { uid: user.uid })
     batch.set(userPreferncesDoc, {
-      region: regionFormValue,
-      interests: input.interests
+      region: data.region,
+      interests: data.interests
     })
 
     await batch.commit()
@@ -69,13 +65,13 @@ export default function UsernameForm(): JSX.Element {
       <div className="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity"></div>
       <div className="fixed inset-0 z-10 overflow-y-auto">
         <div className="flex min-h-full items-end justify-center p-4 text-center sm:items-center sm:p-0">
-          <div className="relative transform overflow-hidden rounded-lg bg-black text-left shadow-xl transition-all ">
-            <div className="px-4 pb-4 pt-5 sm:p-6 sm:pb-4">
-              <div className="flex items-start w-100">
-                <div className="mt-3 text-center sm:text-left">
-                  <h3 className="text-base font-semibold leading-6 text-black" id="modal-title">Create account</h3>
+          <div className="relative transform overflow-hidden w-2/5 rounded-lg bg-black text-left shadow-xl transition-all ">
+            <div className="px-4 pb-4 pt-5">
+              <div className="flex items-start">
+                <div className="mt-3 text-center sm:text-left w-full">
+                  <h3 className="text-base font-semibold leading-6 text-white" id="modal-title">Create account</h3>
                   <div className="mt-2">
-                    <Form form={form} onSubmit={() => { }}>
+                    <Form form={form} onSubmit={onSubmit}>
                       <div className="mb-4">
                         <Input label='Username' type='text' {...form.register('username')} />
                         <Select label='Region' {...form.register('region')}>

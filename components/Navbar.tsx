@@ -33,11 +33,10 @@ export default function Navbar() {
         </Link>
       </div>
       <div className="flex group absolute right-0 top-0 h-14">
-        <UsernameForm />
         {user ?
           username ?
             <button className="px-4 right-0 top-0 tracking-wide" onClick={signOutNow}>Sign Out</button>
-            : <UsernameForm />
+            : <UsernameForm user={user} />
           : <SignInButton />
         }
       </div>
