@@ -5,6 +5,7 @@ import { useRouter, usePathname } from "next/navigation"
 import { auth, googleAuthProvider } from "@lib/firebase/firebaseClient"
 import Link from "next/link"
 import { useEffect } from "react"
+import UsernameForm from "./UsernameForm"
 
 export default function Navbar() {
   const router = useRouter()
@@ -32,8 +33,12 @@ export default function Navbar() {
         </Link>
       </div>
       <div className="flex group absolute right-0 top-0 h-14">
-        {user ? <button className="px-4 right-0 top-0 tracking-wide" onClick={signOutNow}>Sign Out</button> : null}
-        {user ? <div className="px-4 py-4 right-0 top-0">IM IN {username}</div> : <SignInButton />}
+        {user ?
+          username ?
+            <button className="px-4 right-0 top-0 tracking-wide" onClick={signOutNow}>Sign Out</button>
+            : <UsernameForm user={user} />
+          : <SignInButton />
+        }
       </div>
     </div>
   )
