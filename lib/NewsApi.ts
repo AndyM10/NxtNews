@@ -1,60 +1,78 @@
-import { Article, NewsDataResponse, NewsSourcesResponse, Source } from "types/types";
-import { NxtUserPrefs } from '@lib/utils/getUserPrefs'
+import { getUserPrefs } from '@lib/utils/getUserPrefs'
+import { createZodFetcher } from "zod-fetch";
+import { z } from "zod";
+import { DecodedIdToken } from 'firebase-admin/lib/auth/token-verifier'
 
-const fetcher = async (
-  endpoint: string
-): Promise<NewsDataResponse | NewsSourcesResponse> => {
-  const url = `https://newsapi.org/v2/${endpoint}&apiKey=${process.env.API_KEY}`;
+const Source = z.object({
+  id: z.string(),
+  name: z.string(),
+  description: z.string(),
+  url: z.string(),
+  category: z.string(),
+  language: z.string(),
+  country: z.string(),
+})
 
-  try {
-    const data = await fetch(url, { cache: 'no-store' });
-    const resp: NewsDataResponse = await data.json();
-    return resp;
-  } catch (error) {
-    throw error;
-  }
-};
+const NewsSourcesResponse = z.object({
+  status: z.string(),
+  sources: z.array(Source)
+})
 
-export const getNews = async (sourceIds: string): Promise<Array<Article>> => {
-  const query = "";
-  const endpoint = `everything?q=${query}&language=en&sources=${sourceIds}`
-  const news = await fetcher(endpoint) as NewsDataResponse;
-  return news.articles;
-};
+const Article = z.object({
+  title: z.string(),
+  author: z.string().nullable(),
+  source: z.object({
+    Id: z.string().nullable(),
+    Name: z.string(),
+  }),
+  publishedAt: z.string(),
+  url: z.string(),
 
-export const getSources = async (): Promise<string> => {
-  const endpoint = `top-headlines/sources?language=en&country=gb`
-  const sourcesList = await fetcher(endpoint) as NewsSourcesResponse
-  let sourceIds: Array<string> = []
-  sourcesList.sources.map((source: Source) => {
-    sourceIds.push(source.id)
-  })
-  return sourceIds.toString()
+})
+
+const NewsDataResponse = z.object({
+  status: z.string(),
+  totalResults: z.number(),
+  articles: z.array(Article),
+})
+
+export type NewsArticle = z.infer<typeof Article>
+
+const zFetch = createZodFetcher()
+
+export const getNews = async (user?: DecodedIdToken) => {
+  const userPrefs = user ? await getUserPrefs(user.uid) : undefined
+  const sources = await getSources(userPrefs?.region)
+  const news = await getArticles(sources, userPrefs?.interests)
+
+  return news
 }
 
-const sources = async (userLanguage: string, userCountry: string): Promise<string> => {
-  const endpoint = `top-headlines/sources?language=${userLanguage}&country=${userCountry}`
-  const sourcesList = await fetcher(endpoint) as NewsSourcesResponse
-  let sourceIds: Array<string> = []
-  sourcesList.sources.map((source: Source) => {
-    sourceIds.push(source.id)
-  })
-  return sourceIds.toString()
+const getSources = async (country?: string) => {
+  const countryParam = country ? `${country}` : ''
+  console.log(`https://newsapi.org/v2/top-headlines/sources?country=${countryParam}&apiKey=${process.env.API_KEY}`)
+  const resp = await zFetch(
+    NewsSourcesResponse,
+    `https://newsapi.org/v2/top-headlines/sources?country=${countryParam}&apiKey=${process.env.API_KEY}`
+  )
+
+  const sources = resp.sources.slice(0, 20).map((source: z.infer<typeof Source>) => source.id).join(',')
+  return sources
 }
 
-const getNewss = async (sourceIds: string, query: string): Promise<Array<Article>> => {
-  const endpoint = `everything?q=${query}&language=en&sources=${sourceIds}`
-  const news = await fetcher(endpoint) as NewsDataResponse;
-  return news.articles;
-};
+const getArticles = async (sources: string, prefs?: string) => {
 
+  //Take user prefs and join then with 'OR' between each work
+  //e.g. 'bitcoin OR ethereum'
+  const query = prefs ? `q=${prefs.split(' ').join(' OR ')}` : ''
 
+  console.log(`https://newsapi.org/v2/everything?${query}sources=${sources}&apiKey=${process.env.API_KEY}`)
+  const resp = await zFetch(
+    NewsDataResponse,
+    `https://newsapi.org/v2/everything?${query}sources=${sources}&apiKey=${process.env.API_KEY}`
+  )
 
-export const News = async (userPref: NxtUserPrefs) => {
-  let language = userPref.language[0].value
-  let country = userPref.region[0].value
-  const s = await sources(language, country)
-  const n = await getNewss(s, userPref.interests)
+  return resp.articles
 
-  return n
 }
+

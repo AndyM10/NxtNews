@@ -75,9 +75,9 @@ export default function UsernameForm({ user }: usernameFormProps): JSX.Element {
                       <div className="mb-4">
                         <Input label='Username' type='text' {...form.register('username')} />
                         <Select label='Region' {...form.register('region')}>
-                          <option>China</option>
-                          <option>Mexico</option>
-                          <option>United Kingdom</option>
+                          <option value="cn">China</option>
+                          <option value="mx">Mexico</option>
+                          <option value="gb">United Kingdom</option>
                         </Select>
                         <TextArea label='Interests' {...form.register('interests')} />
                       </div>
