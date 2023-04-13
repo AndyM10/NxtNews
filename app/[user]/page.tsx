@@ -1,31 +1,35 @@
 import { cookies } from 'next/headers'
 import { firebaseAdmin } from '@lib/firebase/firebaseAdmin'
-import { News } from '@lib/NewsApi'
-import { NxtUserPrefs } from '@lib/utils/getUserPrefs'
+import { getNews } from '@lib/NewsApi'
 import { Feed } from '@components/Feed'
+import { redirect } from 'next/navigation'
+
 const getUser = async () => {
   try {
     const tokenCookie = cookies().get('token')
-    if (!tokenCookie) throw ('No cookie here!')
+    if (!tokenCookie?.value) throw ('No cookie here!')
+
     const user = await firebaseAdmin.auth().verifyIdToken(tokenCookie.value)
-    const preference = await firebaseAdmin.firestore().doc(`preferences/${user.uid}`).get()
-    const prefData = preference.data() as NxtUserPrefs
-    if (prefData) {
-      return prefData
-    }
+    if (!user) throw ('No user here!')
+
+    return user
 
   } catch (err) {
     console.error('Error:', err)
+    return null
   }
 }
 export default async function Page() {
 
-  const pref = await getUser()
-  const news = await News(pref!)
+  const user = await getUser()
+
+  if (!user) redirect('/')
+
+  const news = user ? await getNews(user) : null
   return (
     <div className='mx-auto px-2 pt-20'>
       User page
-      <Feed articles={news} />
+      {news ? <Feed articles={news} /> : <p>loading...</p>}
     </div>
   )
 }

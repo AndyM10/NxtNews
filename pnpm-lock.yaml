@@ -34,6 +34,9 @@ dependencies:
   zod:
     specifier: ^3.21.4
     version: 3.21.4
+  zod-fetch:
+    specifier: ^0.1.0
+    version: 0.1.0
 
 devDependencies:
   '@firebase/app-types':
@@ -4634,6 +4637,10 @@ packages:
     engines: {node: '>=10'}
     dev: true
     optional: true
+
+  /zod-fetch@0.1.0:
+    resolution: {integrity: sha512-+1M/rSG7ogaewYhaPhoZWAG19H3cjNyiM/4xVOYyYUYrSXlkeCXQauMtEnCmC6wSpJlRiV4G3vWOxeC3148O2A==}
+    dev: false
 
   /zod@3.21.4:
     resolution: {integrity: sha512-m46AKbrzKVzOzs/DZgVnG5H55N1sv1M8qZU3A8RIKbs3mrACDNeIOeilDymVb2HdmP8uwshOCF4uJ8uM9rCqJw==}

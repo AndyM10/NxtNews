@@ -1,11 +1,11 @@
-import { Article } from "types/types"
+import { NewsArticle } from "@lib/NewsApi"
 
 interface FeedProps {
-  articles: Array<Article>
+  articles: Array<NewsArticle>
 }
 
 interface FeedItemProps {
-  article: Article
+  article: NewsArticle
 }
 
 const FeedItem = ({ article }: FeedItemProps) => {
@@ -22,7 +22,7 @@ const FeedItem = ({ article }: FeedItemProps) => {
 export const Feed = ({ articles }: FeedProps) => {
   return (
     <div className="flex flex-col rounded bg-black border border-gray-800">
-      {articles ? articles.map((article: Article) => <FeedItem key={article.title} article={article} />) : null}
+      {articles ? articles.map((article: NewsArticle) => <FeedItem key={article.title} article={article} />) : null}
     </div>
   )
 }

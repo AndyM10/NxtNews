@@ -2,8 +2,7 @@ import { firebaseAdmin } from "@lib/firebase/firebaseAdmin"
 
 export interface NxtUserPrefs {
   interests: string,
-  region: Array<{ value: string, label: string }>,
-  language: Array<{ value: string, label: string }>
+  region: string,
 }
 
 export const getUserPrefs = async (uid: string): Promise<NxtUserPrefs | undefined> => {
