@@ -1,8 +1,8 @@
 import { cookies } from 'next/headers'
 import { firebaseAdmin } from '@lib/firebase/firebaseAdmin'
-import { getNews } from '@lib/NewsApi'
 import { Feed } from '@components/Feed'
 import { redirect } from 'next/navigation'
+import { useUserPrefStore } from '@lib/stores/userPrefStore'
 
 const getUser = async () => {
   try {
@@ -22,14 +22,15 @@ const getUser = async () => {
 export default async function Page() {
 
   const user = await getUser()
-
   if (!user) redirect('/')
 
-  const news = user ? await getNews(user) : null
+  useUserPrefStore().fetchUserPrefs(user)
+
   return (
     <div className='mx-auto px-2 pt-20'>
       User page
-      {news ? <Feed articles={news} /> : <p>loading...</p>}
+      <Feed />
+      //button to increment page number
     </div>
   )
 }

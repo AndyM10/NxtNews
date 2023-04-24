@@ -1,8 +1,6 @@
+'use client'
 import { NewsArticle } from "@lib/NewsApi"
-
-interface FeedProps {
-  articles: Array<NewsArticle>
-}
+import { useNewsStore } from "@lib/stores/newsStore"
 
 interface FeedItemProps {
   article: NewsArticle
@@ -19,7 +17,9 @@ const FeedItem = ({ article }: FeedItemProps) => {
   )
 }
 
-export const Feed = ({ articles }: FeedProps) => {
+export const Feed = () => {
+  const articles = useNewsStore(state => state.articles)
+
   return (
     <div className="flex flex-col rounded bg-black border border-gray-800">
       {articles ? articles.map((article: NewsArticle) => <FeedItem key={article.title} article={article} />) : null}

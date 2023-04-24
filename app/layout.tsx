@@ -1,6 +1,7 @@
 import Navbar from "@components/Navbar";
 import { Providers } from "./providers";
 import "../styles/globals.css"
+import { useNewsStore } from "@lib/store";
 
 export default function RootLayout({
   // Layouts must accept a children prop.
@@ -9,6 +10,7 @@ export default function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
+
   return (
     <html lang="en" className="dark">
       <head>
