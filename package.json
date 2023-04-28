@@ -21,7 +21,8 @@
     "react-dom": "18.2.0",
     "react-hook-form": "^7.43.9",
     "zod": "^3.21.4",
-    "zod-fetch": "^0.1.0"
+    "zod-fetch": "^0.1.0",
+    "zustand": "^4.3.7"
   },
   "devDependencies": {
     "@firebase/app-types": "^0.9.0",
