@@ -6,12 +6,14 @@ import { auth, googleAuthProvider } from "@lib/firebase/firebaseClient"
 import Link from "next/link"
 import { useEffect } from "react"
 import UsernameForm from "./UsernameForm"
+import { useNewsStore } from "@lib/stores/newsStore"
 
 export default function Navbar() {
   const router = useRouter()
   const { user, username } = useAuth()
   const path = usePathname()
   const signOutNow = () => {
+    useNewsStore.setState({ articles: [] })
     signOut(auth)
     router.push('/')
   }

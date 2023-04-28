@@ -3,6 +3,11 @@ import { firebaseAdmin } from '@lib/firebase/firebaseAdmin'
 import { Feed } from '@components/Feed'
 import { redirect } from 'next/navigation'
 import { useUserPrefStore } from '@lib/stores/userPrefStore'
+import PageButton from '@components/PageButton'
+import { getUserPrefs } from '@lib/utils/getUserPrefs'
+import { useNewsStore } from '@lib/stores/newsStore'
+import { getNews } from '@lib/NewsApi'
+import StoreInitalizer from '@lib/stores/storeInitalizer'
 
 const getUser = async () => {
   try {
@@ -20,17 +25,22 @@ const getUser = async () => {
   }
 }
 export default async function Page() {
-
+  useNewsStore.setState({ articles: [] })
   const user = await getUser()
   if (!user) redirect('/')
+  const prefs = await getUserPrefs(user.uid)
+  prefs ? useUserPrefStore.setState({ userPrefs: prefs }) : null
 
-  useUserPrefStore().fetchUserPrefs(user)
+  const news = await getNews(prefs)
+  useNewsStore.setState({ articles: news })
+
 
   return (
     <div className='mx-auto px-2 pt-20'>
+      <StoreInitalizer articles={news} />
       User page
       <Feed />
-      //button to increment page number
+      <PageButton />
     </div>
   )
 }

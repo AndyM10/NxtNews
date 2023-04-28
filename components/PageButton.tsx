@@ -1,20 +1,24 @@
 'use client'
 
 import { useNewsStore } from "@lib/stores/newsStore"
+import { useEffect, useState } from "react"
 
 export default function PageButton() {
+  const [hasMounted, setHasMounted] = useState(false)
+  const [page, setPage] = useState(1)
+  const { fetchArticles } = useNewsStore()
 
-  const { incrementPage, page, fetchArticles } = useNewsStore()
+  useEffect(() => {
+    setHasMounted(true)
+  }, [])
 
-  const clickHandler = () => {
-    incrementPage()
-    fetchArticles(page)
-  }
-
+  useEffect(() => {
+    if (hasMounted) fetchArticles(page)
+  }, [page])
 
   return (
     <div className="flex flex-row justify-center">
-      <button onClick={() => clickHandler()}>Load More </button>
+      <button onClick={() => setPage(page + 1)}>Load More </button>
     </div>
   )
 }

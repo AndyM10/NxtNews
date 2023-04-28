@@ -4,14 +4,9 @@ import { create, StateCreator } from "zustand";
 
 export interface UserDataState {
   userPrefs: NxtUserPrefs | undefined,
-  fetchUserPrefs: (user: DecodedIdToken) => Promise<void>
 }
 
-export const useUserPrefStore = create<UserDataState>()((set) => ({
+export const useUserPrefStore = create<UserDataState>()(() => ({
   userPrefs: undefined,
-  fetchUserPrefs: async (user: DecodedIdToken) => {
-    const prefs = await getUserPrefs(user.uid)
-    set({ userPrefs: prefs })
-  }
 }))
 
