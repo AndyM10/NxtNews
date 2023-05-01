@@ -27,9 +27,9 @@ export default async function Page() {
 
 
   return (
-    <div className="mx-auto px-2 pt-20">
+    <div className="mx-auto my-auto mt-5">
       <StoreInitalizer articles={news} />
-      NEW HOMEPAGE
+      <h1 className="text-4xl font-semibold text-center">Welcome to NxtNews</h1>
       <Feed />
       <PageButton />
     </div>

@@ -8,6 +8,7 @@ import { getUserPrefs } from '@lib/utils/getUserPrefs'
 import { useNewsStore } from '@lib/stores/newsStore'
 import { getNews } from '@lib/NewsApi'
 import StoreInitalizer from '@lib/stores/storeInitalizer'
+import { useRouter } from 'next/navigation'
 
 const getUser = async () => {
   try {
@@ -24,7 +25,7 @@ const getUser = async () => {
     return null
   }
 }
-export default async function Page() {
+export default async function Page({ params }: { params: { user: string } }) {
   useNewsStore.setState({ articles: [] })
   const user = await getUser()
   if (!user) redirect('/')
@@ -36,9 +37,9 @@ export default async function Page() {
 
 
   return (
-    <div className='mx-auto px-2 pt-20'>
+    <div className='mx-auto my-auto mt-5'>
       <StoreInitalizer articles={news} />
-      User page
+      <h1 className='text-4xl font-semibold text-center'>Welcome {params.user}</h1>
       <Feed />
       <PageButton />
     </div>
