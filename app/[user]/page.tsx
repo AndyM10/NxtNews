@@ -24,7 +24,7 @@ const getUser = async () => {
     return null
   }
 }
-export default async function Page() {
+export default async function Page({ params }: { params: { user: string } }) {
   useNewsStore.setState({ articles: [] })
   const user = await getUser()
   if (!user) redirect('/')
@@ -36,9 +36,9 @@ export default async function Page() {
 
 
   return (
-    <div className='mx-auto px-2 pt-20'>
+    <div className='mx-auto my-auto mt-5'>
       <StoreInitalizer articles={news} />
-      User page
+      <h1 className='text-4xl font-semibold text-center p-2'>Welcome {params.user}</h1>
       <Feed />
       <PageButton />
     </div>

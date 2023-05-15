@@ -18,9 +18,9 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(function Input(
   ref
 ) {
   return (
-    <div>
+    <div className='mb-2'>
       <label className='block text-sm font-medium text-white'>{label}</label>
-      <input type={type} ref={ref} className='shadow-sm text-black focus:ring-indigo-500 focus:border-indigo-500 block w-full border-gray-300 rounded-md' {...props} />
+      <input type={type} ref={ref} className='input input-bordered w-full max-w-s' {...props} />
       <FieldError name={props.name} />
     </div>
   );
@@ -32,9 +32,9 @@ export const Select = forwardRef<HTMLSelectElement, SelectProps>(function Select
   ref
 ) {
   return (
-    <div>
-      <label className='block text-sm font-medium leading-6 text-white'>{label}</label>
-      <select className='block w-full rounded-md border-0 py-1.5 text-black shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 ' ref={ref} {...props}>
+    <div className='mb-2'>
+      <label className='block text-sm font-medium  text-white'>{label}</label>
+      <select className='select select-bordered w-full max-w-s' ref={ref} {...props}>
         {children}
       </select>
       <FieldError name={props.name} />
@@ -48,9 +48,8 @@ export const TextArea = forwardRef<HTMLTextAreaElement, TextAreaProps>(function 
 ) {
   return (
     <div>
-      <label className='block text-sm font-medium leading-6 text-white'>{label}</label>
-      <textarea className='block w-full rounded-md border-0 text-black shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 ' ref={ref} {...props} />
-      <p className="mt-3 text-sm leading-6 text-white">What news are you interested in</p>
+      <label className='block text-sm font-medium text-white'>{label}</label>
+      <textarea className='textarea textarea-bordered w-full max-w-s' placeholder='What news are you interested in' ref={ref} {...props} />
       <FieldError name={props.name} />
     </div>
   );

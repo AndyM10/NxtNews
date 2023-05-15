@@ -17,8 +17,8 @@ export default function PageButton() {
   }, [page])
 
   return (
-    <div className="flex flex-row justify-center">
-      <button onClick={() => setPage(page + 1)}>Load More </button>
+    <div className="flex flex-row justify-center m-2">
+      <button className="btn" onClick={() => setPage(page + 1)}>Load More </button>
     </div>
   )
 }
