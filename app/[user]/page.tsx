@@ -8,7 +8,6 @@ import { getUserPrefs } from '@lib/utils/getUserPrefs'
 import { useNewsStore } from '@lib/stores/newsStore'
 import { getNews } from '@lib/NewsApi'
 import StoreInitalizer from '@lib/stores/storeInitalizer'
-import { useRouter } from 'next/navigation'
 
 const getUser = async () => {
   try {
@@ -39,7 +38,7 @@ export default async function Page({ params }: { params: { user: string } }) {
   return (
     <div className='mx-auto my-auto mt-5'>
       <StoreInitalizer articles={news} />
-      <h1 className='text-4xl font-semibold text-center'>Welcome {params.user}</h1>
+      <h1 className='text-4xl font-semibold text-center p-2'>Welcome {params.user}</h1>
       <Feed />
       <PageButton />
     </div>

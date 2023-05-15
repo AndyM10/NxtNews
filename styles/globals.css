@@ -13,6 +13,6 @@
 
 @layer components {
   .feed-item {
-    @apply m-3 w-auto card border border-dashed border-gray-700 rounded-full 
+    @apply m-3 w-auto card-compact border border-dashed border-gray-700 rounded-full hover:border-[#661AE6]
   }
 }

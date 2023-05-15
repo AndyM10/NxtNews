@@ -23,7 +23,7 @@ const FeedItem = ({ article }: FeedItemProps) => {
 export const Feed = () => {
   const { articles } = useNewsStore()
   return (
-    <div className="flex flex-col rounded bg-black border border-gray-800 m-5">
+    <div className="flex flex-col rounded bg-black border border-gray-800 m-auto w-1/2 ">
       {articles ? articles.map((article: NewsArticle) => <FeedItem key={article.title} article={article} />) : null}
     </div>
   )
