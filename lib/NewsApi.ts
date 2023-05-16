@@ -51,7 +51,7 @@ const getSources = async (country: string = 'en') => {
   const resp = await zFetch(
     NewsSourcesResponse,
     `https://newsapi.org/v2/top-headlines/sources?country=${country}&apiKey=${process.env.API_KEY}`
-  )
+   )
 
   const sources = resp.sources.slice(0, 20).map((source: z.infer<typeof Source>) => source.id).join(',')
   return sources
