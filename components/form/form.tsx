@@ -1,7 +1,7 @@
-import { ComponentProps } from "react";
-import { FieldValues, FormProvider, SubmitHandler, UseFormReturn, useForm as useHookForm, UseFormProps as UseHookFormProps, useFormContext } from "react-hook-form";
-import { ZodSchema, TypeOf } from "zod";
-import { zodResolver } from "@hookform/resolvers/zod";
+import { ComponentProps } from 'react'
+import { FieldValues, FormProvider, SubmitHandler, UseFormReturn, UseFormProps as UseHookFormProps, useFormContext, useForm as useHookForm } from 'react-hook-form'
+import { TypeOf, ZodSchema } from 'zod'
+import { zodResolver } from '@hookform/resolvers/zod'
 
 // We provide additional option that would be our zod schema.
 interface UseFormProps<T extends ZodSchema<any>>
@@ -12,19 +12,17 @@ interface UseFormProps<T extends ZodSchema<any>>
 export const useForm = <T extends ZodSchema<any>>({
   schema,
   ...formConfig
-}: UseFormProps<T>) => {
-  return useHookForm({
+}: UseFormProps<T>) => useHookForm({
     ...formConfig,
-    resolver: zodResolver(schema),
-  });
-};
+    resolver: zodResolver(schema)
+  })
 interface FormProps<T extends FieldValues = any>
-  extends Omit<ComponentProps<"form">, "onSubmit"> {
+  extends Omit<ComponentProps<'form'>, 'onSubmit'> {
   form: UseFormReturn<T>;
   onSubmit: SubmitHandler<T>;
 }
 
-export const Form = <T extends FieldValues>({ form, onSubmit, children, ...props }: FormProps<T>) => {
+export function Form<T extends FieldValues>({ form, onSubmit, children, ...props }: FormProps<T>) {
   return (
     <FormProvider {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} {...props}>
@@ -34,16 +32,20 @@ export const Form = <T extends FieldValues>({ form, onSubmit, children, ...props
   )
 }
 export function FieldError({ name }: { name?: string }) {
-  // the useFormContext hook returns the current state of hook form.
+  // The useFormContext hook returns the current state of hook form.
   const {
-    formState: { errors },
-  } = useFormContext();
+    formState: { errors }
+  } = useFormContext()
 
-  if (!name) return null;
+  if (!name) {
+    return null
+  }
 
-  const error = errors[name];
+  const error = errors[name]
 
-  if (!error) return null;
+  if (!error) {
+    return null
+  }
 
-  return <span>{error.message?.toString()}</span>;
+  return <span>{error.message?.toString()}</span>
 }

@@ -10,10 +10,11 @@ import StoreInitalizer from '@lib/stores/storeInitalizer'
 
 export default async function Page() {
   const news = await getNews()
+
   useNewsStore.setState({ articles: news })
 
   const tokenCookie = cookies().get('token')
-  let user: NxtUser | undefined = undefined
+  let user: NxtUser | undefined
 
   if (tokenCookie) {
     user = await getUser(tokenCookie.value)

@@ -1,12 +1,12 @@
 'use client'
-import { useAuth } from "@lib/context"
-import { signInWithPopup, signOut } from "firebase/auth"
-import { useRouter, usePathname } from "next/navigation"
-import { auth, googleAuthProvider } from "@lib/firebase/firebaseClient"
-import Link from "next/link"
-import { useEffect } from "react"
-import UsernameForm from "./UsernameForm"
-import { useNewsStore } from "@lib/stores/newsStore"
+import { useAuth } from '@lib/context'
+import { signInWithPopup, signOut } from 'firebase/auth'
+import { usePathname, useRouter } from 'next/navigation'
+import { auth, googleAuthProvider } from '@lib/firebase/firebaseClient'
+import Link from 'next/link'
+import { useEffect } from 'react'
+import UsernameForm from './UsernameForm'
+import { useNewsStore } from '@lib/stores/newsStore'
 
 export default function Navbar() {
   const router = useRouter()
@@ -27,28 +27,28 @@ export default function Navbar() {
   return (
     <div className="navbar bg-black">
       <div className=" navbar-start">
-        <Link href='/'>
+        <Link href="/">
           <h1 className="font-semibold text-3xl" >
             NxtNews
           </h1>
         </Link>
       </div>
       <div className="navbar-end">
-        {user ?
-          username ?
-            <button className="btn" onClick={signOutNow}>Sign Out</button>
+        {user
+          ? username
+            ? <button className="btn" onClick={signOutNow}>Sign Out</button>
             : <UsernameForm user={user} />
-          : <SignInButton />
-        }
+          : <SignInButton />}
       </div>
     </div >
   )
 }
 
-const SignInButton = (): JSX.Element => {
+function SignInButton(): JSX.Element {
   const signInWithGoogle = async () => {
     await signInWithPopup(auth, googleAuthProvider)
   }
+
   return <button className="btn" onClick={signInWithGoogle}>Sign in</button>
 }
 

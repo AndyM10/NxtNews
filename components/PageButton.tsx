@@ -1,11 +1,17 @@
 'use client'
 
-import { useNewsStore } from "@lib/stores/newsStore"
-import { useEffect, useState } from "react"
+import { useNewsStore } from '@lib/stores/newsStore'
+import { useEffect, useState } from 'react'
 
 export default function PageButton() {
-  const [hasMounted, setHasMounted] = useState(false)
-  const [page, setPage] = useState(1)
+  const [
+    hasMounted,
+    setHasMounted
+  ] = useState(false)
+  const [
+    page,
+    setPage
+  ] = useState(1)
   const { fetchArticles } = useNewsStore()
 
   useEffect(() => {
@@ -13,7 +19,9 @@ export default function PageButton() {
   }, [])
 
   useEffect(() => {
-    if (hasMounted) fetchArticles(page)
+    if (hasMounted) {
+      fetchArticles(page)
+    }
   }, [page])
 
   return (

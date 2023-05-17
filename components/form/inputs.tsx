@@ -1,5 +1,5 @@
-import { ComponentProps, forwardRef } from 'react';
-import { FieldError } from './form';
+import { ComponentProps, forwardRef } from 'react'
+import { FieldError } from './form'
 
 interface InputProps extends ComponentProps<'input'> {
   label: string;
@@ -13,44 +13,38 @@ interface TextAreaProps extends ComponentProps<'textarea'> {
   label: string;
 }
 
-export const Input = forwardRef<HTMLInputElement, InputProps>(function Input(
+export const Input = forwardRef<HTMLInputElement, InputProps>((
   { label, type = 'text', ...props },
   ref
-) {
-  return (
-    <div className='mb-2'>
-      <label className='block text-sm font-medium text-white'>{label}</label>
-      <input type={type} ref={ref} className='input input-bordered w-full max-w-s' {...props} />
-      <FieldError name={props.name} />
-    </div>
-  );
-});
+) => (<div className="mb-2">
+    <label className="block text-sm font-medium text-white">{label}</label>
+    <input
+className="input input-bordered w-full max-w-s" ref={ref} type={type}
+      {...props}
+    />
+    <FieldError name={props.name} />
+  </div>))
 
 
-export const Select = forwardRef<HTMLSelectElement, SelectProps>(function Select(
+export const Select = forwardRef<HTMLSelectElement, SelectProps>((
   { label, children, ...props },
   ref
-) {
-  return (
-    <div className='mb-2'>
-      <label className='block text-sm font-medium  text-white'>{label}</label>
-      <select className='select select-bordered w-full max-w-s' ref={ref} {...props}>
-        {children}
-      </select>
-      <FieldError name={props.name} />
-    </div>
-  );
-})
+) => (<div className="mb-2">
+    <label className="block text-sm font-medium  text-white">{label}</label>
+    <select className="select select-bordered w-full max-w-s" ref={ref} {...props}>
+      {children}
+    </select>
+    <FieldError name={props.name} />
+  </div>))
 
-export const TextArea = forwardRef<HTMLTextAreaElement, TextAreaProps>(function TextArea(
+export const TextArea = forwardRef<HTMLTextAreaElement, TextAreaProps>((
   { label, ...props },
   ref
-) {
-  return (
-    <div>
-      <label className='block text-sm font-medium text-white'>{label}</label>
-      <textarea className='textarea textarea-bordered w-full max-w-s' placeholder='What news are you interested in' ref={ref} {...props} />
-      <FieldError name={props.name} />
-    </div>
-  );
-})
+) => (<div>
+    <label className="block text-sm font-medium text-white">{label}</label>
+    <textarea
+      className="textarea textarea-bordered w-full max-w-s" placeholder="What news are you interested in" ref={ref}
+      {...props}
+    />
+    <FieldError name={props.name} />
+  </div>))
